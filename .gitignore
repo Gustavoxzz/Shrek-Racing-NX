@@ -1,0 +1,14 @@
+/references/
+/original/
+/extracted/
+/generated/
+/build/
+/dist/
+/logs/
+*.iso
+*.elf
+*.nro
+*.nacp
+*.prx
+*.bin
+__pycache__/

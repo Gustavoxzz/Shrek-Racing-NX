@@ -1,0 +1,3 @@
+# Instruções de continuidade
+
+Leia docs/PROGRESS.md, ROADMAP.md, NEXT_STEPS.md, KNOWN_ISSUES.md, BUILD.md, TESTING.md, REFERENCES.md e ARCHITECTURE.md antes de modificar o projeto. Registre resultados e comandos verificáveis; nunca marque um marco como concluído apenas por compilar. Preserve a ISO original. Dados do jogo, hashes locais, executáveis extraídos, saída gerada, builds e saves não devem entrar no Git. Não distribua dados proprietários. Não copie endereços ou patches de outros jogos sem validação. Não use interpretação MIPS ou JIT no produto final. Preserve licenças e atribuição dos componentes reutilizados. Teste a toolchain com fixtures públicas antes de trabalhar no executável. Não fabrique medições ou resultados.
