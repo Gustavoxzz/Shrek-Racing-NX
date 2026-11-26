@@ -11,4 +11,6 @@ wsl -d Ubuntu -u root -- env DEBIAN_FRONTEND=noninteractive apt-get install -y b
 
 Verificação subsequente: GCC 15.2.0, GNU Make 4.4.1, CMake 4.2.3, Ninja 1.13.2, SDL 2.32.10, OpenGL pkg-config 1.2. Essas ferramentas básicas não constituem evidência de testes Nakagawa aprovados; é necessário compilar e executar testes da revisão selecionada.
 
+Foram adicionados `python-is-python3`, SDL3 3.4.2, SDL3_ttf 3.2.2 e bibliotecas Vulkan do Ubuntu para testes. SDL3 3.4.2 difere da versão 3.4.20 recomendada pela documentação do upstream. A primeira execução dos testes nativos falhou na ligação por falta de SDL3 e Vulkan; uma nova execução foi iniciada após instalá-los.
+
 Inicialmente não encontrados no PATH Windows: CMake, Ninja, GCC, Clang, Java, make, pacman, devkitA64, dksh ou Ghidra. No WSL, Java e devkitPro ainda não verificados/instalados; /opt/devkitpro ausente no diagnóstico inicial e DEVKITPRO/DEVKITA64 vazios. Os toolchains e bibliotecas Switch, bem como shaders e Ghidra, permanecem por configurar e validar.
