@@ -1,15 +1,14 @@
 {
-  "last_checkpoint_before_snapshot": "f8da365",
+  "last_checkpoint_before_snapshot": "b74a645",
   "phase": "continuous-development",
   "current_task": "captura diagnóstica ATRAC e comparação PPSSPP",
   "last_relevant_command": "inspecionar atrac3plus.c e logs/run-extended-phase4.log",
-  "last_result": "capturado pacote ATRAC de 1120 bytes; alinhado; equivalência PPSSPP e offset ainda pendentes",
+  "last_result": "captura ATRAC de 1120 bytes combina dois trechos ISO; candidato contíguo decodifica 2048 amostras; pacote PPSSPP não capturado",
   "changed_files": [
+    "docs/ATRAC_PHASE5.md",
     "docs/RESUME.md",
     "docs/NEXT_STEPS.md",
-    "docs/EXECUTION_STATE.json",
-    "THIRD_PARTY_NOTICES.md",
-    "tools/audit_public_content.py"
+    "docs/EXECUTION_STATE.json"
   ],
   "passed_tests": [
     "native-core-tests exit 0 com skips",
@@ -26,16 +25,12 @@
     "runtime Switch ainda contém Ben10 e interpretadores",
     "hardware não validado"
   ],
-  "active_processes": [
-    "captura e análise ATRAC isoladas em work/phase5-atrac"
-  ],
-  "next_action": "concluir captura ATRAC, registrar metadados privados e obter pacote PPSSPP correspondente; não alterar retornos sem evidências",
+  "active_processes": [],
+  "next_action": "instrumentar montagem guest e capturar pacote correspondente no PPSSPP; verificar wrap e estado do stream",
   "artifacts": [
-    "logs/run-extended-phase4.log",
-    "original/private/frame-first-phase4.png",
-    "build/windows-phase4",
+    "original/private/phase5-atrac/",
+    "logs/run-phase5-start.log",
     "build/switch-phase4-experiment",
-    "patches/vfpu-quad-aot-experimental.patch",
-    "work/phase5-atrac/captured-frame.bin"
+    "patches/switch-shrek-diagnostic-experimental.patch"
   ]
 }

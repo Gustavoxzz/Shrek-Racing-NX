@@ -6,6 +6,7 @@
 - O patch Switch diagnóstico foi compilado isoladamente com código 0 e preservado em `patches/`; continua contendo interpretadores e não é recomendado para instalação. Ver SWITCH_PHASE5.md.
 - Execução desktop com pulsos de Start percorreu vídeos e encerrou no limite configurado; não há evidência de menu.
 - Captura diagnóstica ATRAC obteve um pacote recusado de 1120 bytes em endereço guest alinhado a 16 bytes. Busca literal na ISO não encontrou a sequência; o jogo pode transformar os dados, e isso não comprova corrupção. Metadados, bytes e hash são privados; equivalência com o pacote PPSSPP e causa da falha permanecem não comprovadas.
+- Ensaio offline reproduziu a recusa em decoder estéreo e registrou bitreader em 8912/8960 após o bit de modo. Inspeção estática identificou retornos distintos de falha entre Nakagawa e PPSSPP; falta captura PPSSPP correspondente. Ver ATRAC_PHASE5.md.
 
 ## Fase 4 — evidências parciais
 
