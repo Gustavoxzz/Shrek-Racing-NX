@@ -1,5 +1,14 @@
 # Progresso — 2026-11-26
 
+## Fase 2 — 2026-11-27
+
+- O teste `texrepl-selftest`, que falhou em `/mnt/c` por limitações do sistema de arquivos, passou em checkout no filesystem Linux. A repetição de `native-core-tests` está em andamento; não há resultado global neste registro. Log em `logs/native-phase2.log` (ignorado).
+- `EBOOT.BIN` decriptado localmente pela API do Nakagawa é idêntico byte a byte ao `BOOT.BIN` segundo `cmp`. Não há validação independente da autenticidade da cópia. Relatório e scripts privados em `original/private/report.md` e no mesmo diretório.
+- Exemplos oficiais Switch `application` e `deko_basic` compilaram com sucesso, incluindo shaders, ELF AArch64 e NRO; sem teste em hardware. Ver `SWITCH_PHASE2.md` para ambiente isolado e reprodução.
+- `sh tools/compile-generated.sh` terminou com status 0 em WSL/GCC 15.2: compilou o registro e as sete unidades anteriores para objetos com `-O0 -g1`. Não houve ligação, executável ou execução. O script e os objetos pressupõem os dados privados locais; objetos são ignorados.
+- A inspeção do GP aponta relocação para `0x08a6ea80` com base candidata `0x08804000`; não se estabeleceu a equivalência BOOT/EBOOT nem se validou a base real.
+- O relatório CFG indica 780 chamadas e 90 saltos computados sem destino estático; não representam necessariamente falhas em execução. Ver COVERAGE_PHASE2.md para divergência de contagens e limites.
+
 O projeto está em pesquisa inicial. Não existe port jogável, NRO ou teste em Switch. Os marcos permanecem pendentes.
 
 - M00 parcial: WSL2 Ubuntu disponível. Ferramentas básicas instaladas; Switch SDK e validação completa pendentes. Detalhes em ENVIRONMENT.md.
