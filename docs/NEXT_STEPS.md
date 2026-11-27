@@ -1,6 +1,6 @@
 # Próximos passos
 
-Fase 2: concluir a suíte nativa no filesystem Linux e registrar status real; validar a identidade do executável e o modelo de carga com referência dinâmica; configurar manifesto sem apresentar hipótese como fato; ligar os objetos ao runtime e identificar o primeiro bloqueio observado. Preservar os relatórios de CFG e a saída anterior. Validar exemplos ARM64 e deko3d e registrar suas dependências.
+Fase 2: concluir a suíte nativa no filesystem Linux e registrar status real; validar o modelo de carga com referência dinâmica; configurar manifesto sem apresentar hipótese como fato; ligar os objetos ao runtime e identificar o primeiro bloqueio observado. Preservar os relatórios de CFG e a saída anterior. Os exemplos ARM64 e deko3d compilaram, mas ainda requerem teste físico.
 
 1. Concluir testes públicos, documentar versões e resultados.
 2. Determinar base, relocação, imports e entrada do ELF PSP a partir de evidências; verificar módulos e requisitos.
