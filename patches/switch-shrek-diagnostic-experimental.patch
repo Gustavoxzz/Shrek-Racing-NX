@@ -1,0 +1,109 @@
+--- a/src/rt/switch/switch_main.c
++++ b/src/rt/switch/switch_main.c
+@@ -3,7 +3,7 @@
+  * Entry point of the Nintendo Switch build. It sets up the folder on the SD card, then enters the
+  * runtime's driver the way the desktop launcher starts a package.
+  *
+- * sdmc:/switch/ben10-psp/ holds game.iso, <title>_image.bin, assets/ and font/; the runtime writes
++ * sdmc:/switch/shrek-racing-nx/ holds game.iso, <title>_image.bin, assets/ and font/; the runtime writes
+  * its saves to memstick/ and its log to log.txt.
+  *
+  * Empty files in that folder change how it runs: debug.txt adds measurements to the log,
+@@ -24,7 +24,7 @@
+ #error "NK_SWITCH_ENTRY is the guest entry address from the package"
+ #endif
+ 
+-#define NK_SWITCH_ROOT "sdmc:/switch/ben10-psp"
++#define NK_SWITCH_ROOT "sdmc:/switch/shrek-racing-nx"
+ #define NK_SWITCH_BASE "0x08804000"
+ 
+ int sr_driver_main(int argc, char **argv);
+@@ -42,13 +42,18 @@
+     freopen("log.txt", "w", stderr);
+     freopen("log.txt", "a", stdout);
+     setvbuf(stderr, NULL, _IOLBF, 0);
++    fprintf(stderr, "SHREK_NX_DIAGNOSTIC: initializing; title=%s base=%s entry=%s\n", NK_SWITCH_TITLE, NK_SWITCH_BASE, NK_SWITCH_ENTRY);
++    if (access("game.iso", R_OK) != 0) { fprintf(stderr, "SHREK_NX_DIAGNOSTIC: game.iso unavailable\n"); fflush(stderr); return 1; }
++    if (access(NK_SWITCH_TITLE "_image.bin", R_OK) != 0) { fprintf(stderr, "SHREK_NX_DIAGNOSTIC: guest image unavailable\n"); fflush(stderr); return 1; }
++    fprintf(stderr, "SHREK_NX_DIAGNOSTIC: inputs present; invoking runtime\n");
++    fflush(stderr);
+ 
+     setenv("PSP_ISO", "game.iso", 1);
+     setenv("SR_MEMSTICK", "memstick", 1);
+     setenv("SR_FSDIR", "fs", 1);
+     setenv("SR_FPS_CAP", "native", 1);
+     setenv("SR_GPU_GE", "0", 1);
+-    setenv("SR_BOOT_PATH", "", 1);
++    setenv("SR_BOOT_PATH", "disc0:/PSP_GAME/SYSDIR/EBOOT.BIN", 1);
+     /* SR_DEBUG keeps every other logging category off. */
+     setenv("SR_DEBUG", "0", 1);
+     if (access("debug.txt", F_OK) == 0) {
+@@ -57,10 +62,11 @@
+     }
+ 
+     static char *driver_argv[] = {
+-        "ben10-psp", "--image", NK_SWITCH_TITLE "_image.bin", NK_SWITCH_BASE, NK_SWITCH_ENTRY,
++        "shrek-racing-nx", "--image", NK_SWITCH_TITLE "_image.bin", NK_SWITCH_BASE, NK_SWITCH_ENTRY,
+         "none", "none", "--gui", NULL,
+     };
+     const int rc = sr_driver_main(8, driver_argv);
++    fprintf(stderr, "SHREK_NX_DIAGNOSTIC: runtime returned %d\n", rc);
+     fflush(stderr);
+     return rc;
+ }
+--- a/src/rt/switch/gui_switch.c
++++ b/src/rt/switch/gui_switch.c
+@@ -90,8 +90,8 @@
+             s_on = 1;
+             /* An empty nogethread.txt beside the game runs the GE on the game's core. */
+             if (access("nogethread.txt", F_OK) != 0) ge_async_start();
+-            /* An empty noboost.txt beside the game leaves the normal clocks. */
+-            if (access("noboost.txt", F_OK) != 0) {
++            /* An empty boost.txt beside the game requests the official boost. */
++            if (access("boost.txt", F_OK) == 0) {
+                 boost_request();
+                 if (s_boost) appletHook(&s_applet_hook, on_applet_event, NULL);
+             }
+--- a/src/rt/switch/ge_dk.c
++++ b/src/rt/switch/ge_dk.c
+@@ -37,7 +37,7 @@
+ #define HANDHELD_W 1280
+ #define HANDHELD_H 720
+ #define SWAP_IMAGES 3
+-#define DEFAULT_RENDER_SCALE 2u
++#define DEFAULT_RENDER_SCALE 1u
+ /* A 30 fps game has 33 ms for a frame. This much GPU time per frame, averaged over this many frames
+  * this many times in a row, means the current scale costs frames: one step lower it goes. */
+ #define GPU_OVERLOAD_NS 31000000ull
+--- a/Makefile.switch
++++ b/Makefile.switch
+@@ -11,13 +11,13 @@
+ 
+ comma := ,
+ PACKAGE_DIR ?= $(error PACKAGE_DIR is required)
+-TITLE       ?= experimental-ulus10307
+-ENTRY       ?= 0x088994d4
+-APP_NAME    ?= Ben 10: Protector of Earth
+-APP_AUTHOR  ?= LaLemniscata
++TITLE       ?= shrek
++ENTRY       ?= 0x08804678
++APP_NAME    ?= Shrek Racing NX (diagnostic)
++APP_AUTHOR  ?= Shrek Racing NX contributors
+ APP_VERSION ?= 1.0.0
+ BUILD       := build_switch
+-TARGET      := ben10-psp
++TARGET      := shrek-racing-nx
+ 
+ PREFIX  := $(DEVKITPRO)/devkitA64/bin/aarch64-none-elf-
+ CC      := $(PREFIX)gcc
+@@ -75,8 +75,8 @@
+ $(error No $(TITLE)_recomp*.c found in PACKAGE_DIR=$(PACKAGE_DIR))
+ endif
+ 
+-$(TARGET).nro: $(BUILD)/$(TARGET).elf $(BUILD)/$(TARGET).nacp $(ICON_FILE)
+-	$(DEVKITPRO)/tools/bin/elf2nro $< $@ --nacp=$(BUILD)/$(TARGET).nacp --icon=$(ICON_FILE)
++$(TARGET).nro: $(BUILD)/$(TARGET).elf $(BUILD)/$(TARGET).nacp
++	$(DEVKITPRO)/tools/bin/elf2nro $< $@ --nacp=$(BUILD)/$(TARGET).nacp
+ 	@echo Built $@
+ 
+ $(BUILD)/$(TARGET).nacp: Makefile.switch
