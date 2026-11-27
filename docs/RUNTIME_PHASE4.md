@@ -12,4 +12,8 @@ O primeiro smoke Windows falhou com status 0xC0000409 e log de LUT VFPU ausente 
 
 Espaço: C: tinha aproximadamente 118 GiB disponíveis; `/` WSL relatou 951 GiB e 67 milhões de inodes livres, ao passo que `/tmp` é tmpfs de 1,9 GiB. O teste de vídeo exigia 4096 MiB livres; executado em `/var/tmp`, `videorec_selftest` passou inclusive FFV1 e mux. O alvo `psmf-media-focused-selftest` e a suíte `native-core-tests` terminaram com código 0 em checkout Linux com `TMPDIR` no filesystem Linux; alguns casos foram ignorados por serem específicos de Windows ou indisponíveis no host. Logs privados em `logs/focused-phase4.log` e `logs/native-phase4.log`.
 
+A capacidade livre reportada pelo ext4 virtual não representa espaço físico garantido no disco hospedeiro: o crescimento efetivo do VHDX depende também do espaço disponível no Windows.
+
 Para smoke controlado WSL: `tools/smoke-wsl.ps1 -Iso <ISO> -ExitVblank 300 -TimeoutSeconds 20`. O script usa o limite oficial por VBlank, guarda logs privados e relata apenas marcadores com evidência. Em teste retornou código 0. Um timeout externo permanece como proteção caso o encerramento não ocorra.
+
+Na configuração local existente, `tools/build-windows.ps1 -Jobs 2` repetiu o build e retornou código 0; `tools/smoke-windows.ps1 -Iso <ISO> -ExitVblank 120 -TimeoutSeconds 20` também terminou com código 0. Ambos dependem do checkout e toolchain isolados em `work/`, da entrada privada e dos diretórios descritos acima; não são instaladores. O smoke usa áudio e vídeo dummy e não valida interação.
