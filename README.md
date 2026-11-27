@@ -22,6 +22,16 @@
 > [!WARNING]
 > **Projeto experimental em desenvolvimento.** Ainda não existe uma versão jogável ou instalável para usuários. Um ELF/NRO ARM64 foi produzido em laboratório, mas contém caminhos de interpretação e configurações herdadas do Ben 10 NX. Não foi validado em um Nintendo Switch físico e não deve ser distribuído ou instalado como versão funcional do port.
 
+<div align="center">
+
+## 🏁 Port Development Tracker
+
+[![Progresso estimado do desenvolvimento: 20% — primeiro frame desktop](docs/assets/port-progress.svg)](#-progresso)
+
+**20% do desenvolvimento geral · 0% de gameplay validado no Switch físico**
+
+</div>
+
 ## 🐸 Visão geral
 
 **Shrek Racing NX** é um projeto independente de engenharia reversa e recompilação estática da versão PSP de *Shrek: Smash n' Crash Racing*.
@@ -84,6 +94,43 @@ Leia mais em [Arquitetura](docs/ARCHITECTURE.md) e [Matriz de compatibilidade](d
 | Switch físico, saves e desempenho | ⚪ | Testes pendentes |
 
 🟢 Evidência técnica obtida para o escopo indicado · 🟡 Parcial/experimental · 🟠 Bloqueio em investigação · ⚪ Pendente
+
+### 📊 Como calculamos o percentual
+
+Inspirado na [metodologia do PortWatch VI](https://portwatch-vi.xyz/#method), este indicador usa uma escala própria de marcos acumulativos, adaptada para o objetivo strict-AOT no Nintendo Switch. É uma estimativa editorial, não uma medida de linhas de código, esforço ou tempo restante. Os avanços precisam estar registrados nos relatórios técnicos; um NRO apenas linkado não recebe crédito de inicialização ou gameplay.
+
+<details>
+<summary><b>Ver critérios de pontuação (0–100%)</b></summary>
+
+#### Etapa 1 — Do laboratório ao port jogável (50 pontos)
+
+| Marco acumulativo | Pontuação ao atingir | Estado |
+| :--- | ---: | :--- |
+| Ambiente, análise inicial e geração de código | 5% | ✅ Evidência obtida |
+| Executável desktop inicia e executa código do jogo | 10% | ✅ Evidência obtida |
+| Primeiro framebuffer com conteúdo reconhecível no desktop | **20%** | ✅ Evidência obtida |
+| Menu principal reconhecível no desktop | 25% | ⬜ Pendente |
+| Primeira corrida completa e controlável no desktop | 30% | ⬜ Pendente |
+| Inicialização do jogo no Switch físico | 35% | ⬜ Pendente |
+| Menu funcional no Switch físico | 40% | ⬜ Pendente |
+| Primeira corrida completa e controlável no Switch físico, com strict-AOT auditado | 50% | ⬜ Pendente |
+
+Os marcos são cumulativos: atingir uma linha já inclui os pontos anteriores. Marcos incompletos não aumentam a pontuação. O primeiro frame atual é uma captura offscreen experimental, com fidelidade visual não validada.
+
+#### Etapa 2 — Do port jogável ao port completo (50 pontos adicionais)
+
+| Dimensão | Peso máximo | Critério para pontuação integral |
+| :--- | ---: | :--- |
+| Conteúdo e gameplay | 20 | Modos, pistas e progressão verificáveis no Switch |
+| Fidelidade audiovisual | 10 | Renderização, áudio e sincronização validados |
+| Desempenho | 10 | Meta de desempenho definida e verificada em hardware real |
+| Estabilidade e acabamento | 10 | Sessões prolongadas, controles, saves, instalação reproduzível e ausência de falhas impeditivas |
+
+As dimensões adicionais só pontuam depois do marco jogável strict-AOT (50%). Cada dimensão receberá uma pontuação proporcional baseada em critérios e testes documentados. **Pontuação atual: 20 + 0 = 20%.**
+
+A escala e o gráfico são atualizados manualmente quando novas evidências são registradas. Os números podem ser revistos se uma evidência for invalidada. A referência atual é [Retomada](docs/RESUME.md) e [Progresso](docs/PROGRESS.md).
+
+</details>
 
 ### 🎯 Próximos marcos
 
