@@ -1,5 +1,7 @@
 # Retomada
 
+Fase 5: `origin/master` foi atualizado por fast-forward até 1ec6d84, preservando o README. O novo script `tools/setup_references.py` prepara referências fixadas sem sobrescrever checkout modificado; `docs/MIGRATION.md` descreve uso e limites. Investigação ATRAC está isolada em `work/phase5-atrac`: o código PPSSPP retorna `ALL_DATA_DECODED` após falha, enquanto o Nakagawa retorna `UNKNOWN_FORMAT`; a equivalência dos pacotes ainda deve ser medida. `tools/compare_packets.py` compara capturas locais com hashes e offsets sem revelar bytes. Nunca publicar saída derivada do jogo.
+
 Objetivo: port Switch jogável e strict-AOT, sem interpretação/JIT, com áudio, saves e validação física. Não redistribuir dados originais ou código gerado. Leia AGENTS.md e PROGRESS.md primeiro.
 
 Estado: desktop Linux e Windows experimentais iniciam; primeiro framebuffer offscreen mostra logotipo; menu não validado. Link Switch experimental inclui configurações Ben10 e interpretação, não instalar. Base 0x08804000, entrada 0x08804678 e GP 0x08a6ea80 observados no PPSSPP. Nakagawa adba2471bb9963f24533b7422a5e9119bd4c7116; Ben10 a2a30be95d7cfc7cdf66e906093a24efe1f992de e base 70b1d3f83bd2ac445d1a76d6fb05b0bbbbdc5bfa. Testes nativos retornaram 0 com skips; ver RUNTIME_PHASE4.md. Não tratar teste de exemplo ou link como gameplay.

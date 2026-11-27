@@ -1,14 +1,40 @@
 {
-  "last_checkpoint_before_snapshot": "29360b9",
+  "last_checkpoint_before_snapshot": "c264c4e",
   "phase": "continuous-development",
-  "current_task": "diagnosticar ATRAC3+ GHA amplitude mode 0",
+  "current_task": "captura diagnóstica ATRAC e comparação PPSSPP",
   "last_relevant_command": "inspecionar atrac3plus.c e logs/run-extended-phase4.log",
-  "last_result": "decoder recusa GHA amplitude mode 0; nexo causal com stall não estabelecido",
-  "changed_files": ["docs/RESUME.md", "docs/EXECUTION_STATE.json"],
-  "passed_tests": ["native-core-tests exit 0 com skips", "smokes Windows e WSL controlados", "teste isolado videorec"],
-  "failed_tests": ["stream ATRAC3+ recusado no ensaio do jogo"],
-  "blockers": ["decoder GHA 0", "sem menu validado", "fallback VFPU", "runtime Switch ainda contém Ben10 e interpretadores", "hardware não validado"],
-  "active_processes": [],
-  "next_action": "capturar entrada ATRAC privada e criar reprodução mínima; comparar implementação PPSSPP e upstream, testar sem mascarar erros",
-  "artifacts": ["logs/run-extended-phase4.log", "original/private/frame-first-phase4.png", "build/windows-phase4", "build/switch-phase4-experiment", "patches/vfpu-quad-aot-experimental.patch"]
+  "last_result": "referências sincronizadas e fixadas; diff experimental Switch linkou; igualdade dos pacotes ATRAC ainda não demonstrada",
+  "changed_files": [
+    "docs/RESUME.md",
+    "docs/NEXT_STEPS.md",
+    "docs/EXECUTION_STATE.json",
+    "THIRD_PARTY_NOTICES.md",
+    "tools/audit_public_content.py"
+  ],
+  "passed_tests": [
+    "native-core-tests exit 0 com skips",
+    "smokes Windows e WSL controlados",
+    "teste isolado videorec"
+  ],
+  "failed_tests": [
+    "stream ATRAC3+ recusado no ensaio do jogo"
+  ],
+  "blockers": [
+    "decoder GHA 0",
+    "sem menu validado",
+    "fallback VFPU",
+    "runtime Switch ainda contém Ben10 e interpretadores",
+    "hardware não validado"
+  ],
+  "active_processes": [
+    "ensaio ATRAC isolado em andamento; consultar work/phase5-atrac/run.log"
+  ],
+  "next_action": "concluir captura ATRAC, registrar metadados privados e obter pacote PPSSPP correspondente; não alterar retornos sem evidências",
+  "artifacts": [
+    "logs/run-extended-phase4.log",
+    "original/private/frame-first-phase4.png",
+    "build/windows-phase4",
+    "build/switch-phase4-experiment",
+    "patches/vfpu-quad-aot-experimental.patch"
+  ]
 }
