@@ -1,0 +1,14 @@
+{
+  "last_checkpoint_before_snapshot": "29360b9",
+  "phase": "continuous-development",
+  "current_task": "diagnosticar ATRAC3+ GHA amplitude mode 0",
+  "last_relevant_command": "inspecionar atrac3plus.c e logs/run-extended-phase4.log",
+  "last_result": "decoder recusa GHA amplitude mode 0; nexo causal com stall não estabelecido",
+  "changed_files": ["docs/RESUME.md", "docs/EXECUTION_STATE.json"],
+  "passed_tests": ["native-core-tests exit 0 com skips", "smokes Windows e WSL controlados", "teste isolado videorec"],
+  "failed_tests": ["stream ATRAC3+ recusado no ensaio do jogo"],
+  "blockers": ["decoder GHA 0", "sem menu validado", "fallback VFPU", "runtime Switch ainda contém Ben10 e interpretadores", "hardware não validado"],
+  "active_processes": [],
+  "next_action": "capturar entrada ATRAC privada e criar reprodução mínima; comparar implementação PPSSPP e upstream, testar sem mascarar erros",
+  "artifacts": ["logs/run-extended-phase4.log", "original/private/frame-first-phase4.png", "build/windows-phase4", "build/switch-phase4-experiment", "patches/vfpu-quad-aot-experimental.patch"]
+}

@@ -1,0 +1,9 @@
+# Retomada
+
+Objetivo: port Switch jogável e strict-AOT, sem interpretação/JIT, com áudio, saves e validação física. Não redistribuir dados originais ou código gerado. Leia AGENTS.md e PROGRESS.md primeiro.
+
+Estado: desktop Linux e Windows experimentais iniciam; primeiro framebuffer offscreen mostra logotipo; menu não validado. Link Switch experimental inclui configurações Ben10 e interpretação, não instalar. Base 0x08804000, entrada 0x08804678 e GP 0x08a6ea80 observados no PPSSPP. Nakagawa adba2471bb9963f24533b7422a5e9119bd4c7116; Ben10 a2a30be95d7cfc7cdf66e906093a24efe1f992de e base 70b1d3f83bd2ac445d1a76d6fb05b0bbbbdc5bfa. Testes nativos retornaram 0 com skips; ver RUNTIME_PHASE4.md. Não tratar teste de exemplo ou link como gameplay.
+
+Prioridade: decoder ATRAC3+ relata `GHA amplitude mode 0` ausente em `references/nakagawa-recomp/src/rt/atrac3p/libavcodec/atrac3plus.c`. A cópia local do decoder standalone do PPSSPP também recusa esse modo: verificar integridade/alinhamento do frame e diferenças de streaming antes de assumir que a instrução de fato ocorre no original. Capturar entrada reproduzível privada e comparar comportamento, sem supor que seja causa do stall. Em paralelo validar protótipo VFPU em patches com testes diferenciais e delay slots; não integrar como final sem evidência. A análise de vídeo e sequências está em VIDEO_PHASE4.md; runtime, comandos e scripts em RUNTIME_PHASE4.md; Switch em SWITCH_PHASE4.md e COMPATIBILITY_MATRIX.md. Build e smoke Windows: `tools/build-windows.ps1`, `tools/smoke-windows.ps1 -Iso <ISO>`; WSL: `tools/smoke-wsl.ps1 -Iso <ISO>`.
+
+Dados e logs privados em original/private, generated, build, logs e references ignorados. Screenshots, vídeo, código gerado e binários não devem ser commitados. `docs/EXECUTION_STATE.json` é um snapshot e deve ser reconciliado com `git status`, processos e logs na retomada; não assumir que um PID antigo ainda exista.
