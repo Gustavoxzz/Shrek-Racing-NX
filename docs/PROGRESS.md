@@ -1,5 +1,13 @@
 # Progresso — 2026-11-26
 
+## Fase 4 — evidências parciais
+
+- Primeiro framebuffer do jogo capturado offscreen: 480x272, logotipo Activision escuro; correção e comparação PPSSPP ainda pendentes. AVC e ATRAC são reportados como decodificados; sem validação visual da sequência ou áudio real. Ver VIDEO_PHASE4.md.
+- Teste isolado `psmf-media-focused-selftest` e `native-core-tests` retornaram código 0 em checkout no filesystem Linux com TMPDIR fora do tmpfs de 1,9 GiB. Houve casos ignorados específicos do host; log privado em logs/native-phase4.log. O teste separado videorec também passou, incluindo FFV1/mux.
+- Build Windows x86-64 experimental ligado com símbolos DWARF parciais; smoke headless chegou ao flip de display e terminou normalmente em VBlank, com áudio dummy. Não demonstra janela interativa ou port final.
+- Link ARM64 experimental com código gerado pela revisão base do Ben10 produziu ELF/NRO, mas inclui interpretação e configuração Ben10; não instalar. Ver SWITCH_PHASE4.md.
+- Protótipo isolado de AOT para `lv.q`/`sv.q` e testes iniciais estão em VFPU_AOT_PHASE4.md e patches; não está integrado ou validado como strict-AOT.
+
 ## Fase 3 — 2026-11-27
 
 - PPSSPP v1.20.4 carregou a cópia local na base 0x08804000, entry 0x08804678 e GP 0x08a6ea80. Não é medição de hardware; SP/RA não foram capturados. Evidência e relatório privados em original/private.

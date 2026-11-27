@@ -1,6 +1,6 @@
 # Questões em aberto
 
-- Um executável Linux exploratório foi ligado e executado headless; ainda não há NRO do jogo, frame validado ou build final sem interpretação.
+- Um executável Linux exploratório exibiu conteúdo do jogo offscreen; a fidelidade visual e o menu não foram validados. Existe NRO experimental com configurações Ben10 e componentes de interpretação; não é instalável como port e não há build final sem interpretação.
 - Base de carregamento e tratamento de relocação do BOOT.BIN ainda requerem validação antes de fixar o manifesto.
 - O manifesto Shrek ainda não existe: a base e o contrato do runtime não foram validados. A igualdade EBOOT decriptado/BOOT confirma os bytes, não o comportamento de execução.
 - Compatibilidade entre o gerador upstream e o runtime Switch do Ben 10 não foi validada.
