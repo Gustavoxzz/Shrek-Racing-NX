@@ -1,5 +1,7 @@
 # Próximos passos
 
+Fase 3: investigar a execução após abertura do vídeo, comparar estado e fluxo com PPSSPP e capturar destinos indiretos alcançados. A mensagem inicial de spin teve atividade posterior e não é bloqueio confirmado. Validar contrato de título e remover dependências de interpretação para o produto final. Repetir teste de vídeo com espaço suficiente. Comparar SP/RA iniciais com PPSSPP; integrar runtime Switch após compatibilidade de APIs e VFPU AOT. Adicionar símbolos de depuração completos e verificar mapa de linkagem.
+
 Fase 2: concluir a suíte nativa no filesystem Linux e registrar status real; validar o modelo de carga com referência dinâmica; configurar manifesto sem apresentar hipótese como fato; ligar os objetos ao runtime e identificar o primeiro bloqueio observado. Preservar os relatórios de CFG e a saída anterior. Os exemplos ARM64 e deko3d compilaram, mas ainda requerem teste físico.
 
 1. Concluir testes públicos, documentar versões e resultados.
