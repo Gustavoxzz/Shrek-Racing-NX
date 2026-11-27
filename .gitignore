@@ -11,4 +11,17 @@
 *.nacp
 *.prx
 *.bin
+*.cso
+*.chd
+*.zso
+*.pmf
+*.at3
+*.wav
+*.mp3
+*.mp4
+*.mkv
+*.png
+*.jpg
+*.jpeg
+*.ppm
 __pycache__/

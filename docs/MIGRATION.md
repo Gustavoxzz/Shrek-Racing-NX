@@ -1,0 +1,5 @@
+# Preparar referências em outro computador
+
+O repositório público não contém jogos, código gerado ou toolchains. Instale Git e Python 3 e, na raiz deste projeto, execute `python tools/setup_references.py --destination references`. O script consulta `tools/dependencies.json`, clona os três repositórios públicos e fixa cada SHA. Uma pasta existente com alterações ou revisão diferente é recusada e preservada; não altera automaticamente checkouts preexistentes. O código gerado e o runtime do Switch devem usar uma base compatível; a referência upstream atual e a base Ben10 são distintas.
+
+Forneça uma ISO própria apenas localmente, nunca no Git. O script prepara referências, não instala a toolchain, não extrai ou distribui arquivos do jogo e não prova a compilação completa. Para o restante consulte BUILD.md, RESUME.md e SWITCH_PHASE2.md. O teste sintético `python -m unittest discover -s tools -p test_setup_references.py` verifica clonagem, repetição, caminhos com espaços e preservação de alterações locais.

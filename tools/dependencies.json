@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "repositories": [
+    {"name": "nakagawa-recomp", "url": "https://github.com/Jstar269/Nakagawa-Recomp.git", "commit": "adba2471bb9963f24533b7422a5e9119bd4c7116"},
+    {"name": "ben10-nx", "url": "https://github.com/LaLemniscata/ben10-nx.git", "commit": "a2a30be95d7cfc7cdf66e906093a24efe1f992de"},
+    {"name": "tseripper", "url": "https://github.com/BLiNXthetimesweeperGOD/TSERipper.git", "commit": "83f005e96a215e59b8b6f65c63602185861c1a98"}
+  ],
+  "switch_codegen_base": "70b1d3f83bd2ac445d1a76d6fb05b0bbbbdc5bfa"
+}
