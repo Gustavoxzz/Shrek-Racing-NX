@@ -1,5 +1,12 @@
 # Progresso — 2026-11-26
 
+## Fase 5 — em andamento
+
+- Referências públicas fixadas e script de preparação idempotente testado; os três checkouts locais coincidem com os SHAs. Ver MIGRATION.md.
+- O patch Switch diagnóstico foi compilado isoladamente com código 0 e preservado em `patches/`; continua contendo interpretadores e não é recomendado para instalação. Ver SWITCH_PHASE5.md.
+- Execução desktop com pulsos de Start percorreu vídeos e encerrou no limite configurado; não há evidência de menu.
+- Captura diagnóstica ATRAC obteve um pacote recusado de 1120 bytes em endereço guest alinhado a 16 bytes. Busca literal na ISO não encontrou a sequência; o jogo pode transformar os dados, e isso não comprova corrupção. Metadados, bytes e hash são privados; equivalência com o pacote PPSSPP e causa da falha permanecem não comprovadas.
+
 ## Fase 4 — evidências parciais
 
 - Primeiro framebuffer do jogo capturado offscreen: 480x272, logotipo Activision escuro; correção e comparação PPSSPP ainda pendentes. AVC e ATRAC são reportados como decodificados; sem validação visual da sequência ou áudio real. Ver VIDEO_PHASE4.md.

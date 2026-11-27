@@ -1,9 +1,9 @@
 {
-  "last_checkpoint_before_snapshot": "c264c4e",
+  "last_checkpoint_before_snapshot": "f8da365",
   "phase": "continuous-development",
   "current_task": "captura diagnóstica ATRAC e comparação PPSSPP",
   "last_relevant_command": "inspecionar atrac3plus.c e logs/run-extended-phase4.log",
-  "last_result": "referências sincronizadas e fixadas; diff experimental Switch linkou; igualdade dos pacotes ATRAC ainda não demonstrada",
+  "last_result": "capturado pacote ATRAC de 1120 bytes; alinhado; equivalência PPSSPP e offset ainda pendentes",
   "changed_files": [
     "docs/RESUME.md",
     "docs/NEXT_STEPS.md",
@@ -27,7 +27,7 @@
     "hardware não validado"
   ],
   "active_processes": [
-    "ensaio ATRAC isolado em andamento; consultar work/phase5-atrac/run.log"
+    "captura e análise ATRAC isoladas em work/phase5-atrac"
   ],
   "next_action": "concluir captura ATRAC, registrar metadados privados e obter pacote PPSSPP correspondente; não alterar retornos sem evidências",
   "artifacts": [
@@ -35,6 +35,7 @@
     "original/private/frame-first-phase4.png",
     "build/windows-phase4",
     "build/switch-phase4-experiment",
-    "patches/vfpu-quad-aot-experimental.patch"
+    "patches/vfpu-quad-aot-experimental.patch",
+    "work/phase5-atrac/captured-frame.bin"
   ]
 }
