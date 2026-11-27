@@ -1,0 +1,80 @@
+diff --git a/tools/codegen.py b/tools/codegen.py
+index c994172f..ae4e44c6 100644
+--- a/tools/codegen.py
++++ b/tools/codegen.py
+@@ -3165,41 +3165,36 @@ def _vfpu_quad_memory_effect(addr, w, options, delay_branch_pc):
+     return handler(addr, w, options, delay_branch_pc)
+ 
+ 
+-def _vfpu_lvq(addr, w, options, delay_branch_pc):
+-    lle_cpu = options.lle_cpu
++def _vfpu_quad_aot(addr, w, options, delay_branch_pc, store):
+     vt = ((w >> 16) & 0x1F) | ((w & 1) << 5)
+     idx = vreg_indices(vt, 4)
+     base = f"({R(rs(w))} + {simm(w & 0xFFFFFFFC)})"
+-    if lle_cpu:
++    guard = ""
++    if options.lle_cpu:
+         in_delay = 1 if delay_branch_pc is not None else 0
+         branch = G(delay_branch_pc) if delay_branch_pc is not None else "0u"
+-        parts = " ".join(f"s->vi[{idx[i]}] = MEM_R32(_a + {i*4});" for i in range(4))
+-        return (f"{{ uint32_t _a = {base}; if (sr_cpu_guard_access(s, _a, 16u, 0, "
+-                f"{G(addr)}, {branch}, {in_delay}u)) {{ sr_end(s, 0u, 0); return; }} "
+-                f"if((_a&15u)==0 && sr_guest_span_readable(_a,16u)){{ {parts} }}else{{"
+-                f"{_vfpu_mem_interp_stmt(addr, w)} }} }}"), None, 0
+-    # The whole 16-byte span must be readable before any destination lane commits.
+-    parts = " ".join(f"s->vi[{idx[i]}] = MEM_R32(_a + {i*4});" for i in range(4))
+-    return (f"{{ uint32_t _a = {base}; if((_a&15u)==0 && sr_guest_span_readable(_a,16u)){{ {parts} }}else{{"
+-            f"{_vfpu_mem_interp_stmt(addr, w)} }} }}"), None, 0
++        guard = (f"if (sr_cpu_guard_access(s, _a, 16u, {int(store)}, "
++                 f"{G(addr)}, {branch}, {in_delay}u)) {{ sr_end(s, 0u, 0); return; }} ")
++    span = "sr_guest_span_writable" if store else "sr_guest_span_readable"
++    parts = (" ".join(f"MEM_W32_PC(_a + {i*4}, s->vi[{idx[i]}], {G(addr)});" for i in range(4))
++             if store else " ".join(f"s->vi[{idx[i]}] = MEM_R32(_a + {i*4});" for i in range(4)))
++    # Match the old interpreter floor for non-LLE misalignment: it sets pc before
++    # doing otherwise ordinary accesses. Invalid spans refuse before any lane.
++    fail = (f"s->pc={G(addr)}; sr_oor(_a, 0u, {int(store)}); "
++            f"fprintf(stderr, \"VFPU_ACCESS_OUT_OF_RANGE: pc=0x{addr:08x} word=0x{w:08x}\\n\"); "
++            f"sr_unimplemented({G(addr)}, \"VFPU load or store outside guest memory\"); "
++            "sr_end(s, 0u, 0); return;")
++    body = (f"{{ uint32_t _a = {base}; {guard}if (!{span}(_a, 16u)) {{ {fail} }} "
++            f"if (_a & 15u) s->pc={G(addr)}; {parts} }}")
++    return body, (base if store else None), (16 if store else 0)
++
++
++def _vfpu_lvq(addr, w, options, delay_branch_pc):
++    return _vfpu_quad_aot(addr, w, options, delay_branch_pc, False)
+ 
+ 
+ def _vfpu_svq(addr, w, options, delay_branch_pc):
+-    lle_cpu = options.lle_cpu
+-    vt = ((w >> 16) & 0x1F) | ((w & 1) << 5)
+-    idx = vreg_indices(vt, 4)
+-    base = f"({R(rs(w))} + {simm(w & 0xFFFFFFFC)})"
+-    if lle_cpu:
+-        in_delay = 1 if delay_branch_pc is not None else 0
+-        branch = G(delay_branch_pc) if delay_branch_pc is not None else "0u"
+-        parts = " ".join(f"MEM_W32_PC(_a + {i*4}, s->vi[{idx[i]}], {G(addr)});" for i in range(4))
+-        return (f"{{ uint32_t _a = {base}; if (sr_cpu_guard_access(s, _a, 16u, 1, "
+-                f"{G(addr)}, {branch}, {in_delay}u)) {{ sr_end(s, 0u, 0); return; }} "
+-                f"if((_a&15u)==0 && sr_guest_span_writable(_a,16u)){{ {parts} }}else{{"
+-                f"{_vfpu_mem_interp_stmt(addr, w)} }} }}"), base, 16
+-    parts = " ".join(f"MEM_W32_PC(_a + {i*4}, s->vi[{idx[i]}], {G(addr)});" for i in range(4))
+-    return (f"{{ uint32_t _a = {base}; if((_a&15u)==0 && sr_guest_span_writable(_a,16u)){{ {parts} }}else{{"
+-            f"{_vfpu_mem_interp_stmt(addr, w)} }} }}"), base, 16  # sv.q
++    return _vfpu_quad_aot(addr, w, options, delay_branch_pc, True)
+ 
+ 
+ _VFPU_QUAD_MEMORY_FORMS = {0x36: _vfpu_lvq, 0x3E: _vfpu_svq}
+diff --git a/tools/test_codegen_vfpu_fallback.py b/tools/test_codegen_vfpu_fallback.py
+index d1dc949a..22aaba2f 100644
+--- a/tools/test_codegen_vfpu_fallback.py
++++ b/tools/test_codegen_vfpu_fallback.py
+@@ -383,6 +383,7 @@ static uint32_t MEM_R32(uint32_t a) {{ (void)a; return 0u; }}
+ static void MEM_W32_PC(uint32_t a, uint32_t v, uint32_t pc) {{ (void)a; (void)v; (void)pc; }}
+ static int sr_vfpu_interp(CpuState *s, uint32_t op) {{ (void)s; (void)op; return SR_VFPU_ACCESS_REFUSED; }}
+ static const char *reason;
++static void sr_oor(uint32_t a, uint32_t v, int w) {{ (void)a; (void)v; (void)w; }}
+ static void sr_unimplemented(uint32_t pc, const char *why) {{ (void)pc; reason = why; }}
+ static void generated(CpuState *s) {{ {line} s->r[0] = 0xdeadbeefu; }}
+ int main(void) {{
